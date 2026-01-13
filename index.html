@@ -2,12 +2,12 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Jadwal KBM SMA Negeri 1 Lasem</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 20px;
+            margin: 10px; /* Diperkecil marginnya buat HP */
             background-color: #f4f4f4;
             color: #333;
         }
@@ -28,138 +28,96 @@
             padding: 12px;
             text-align: center;
             font-weight: bold;
-            font-size: 1.2em;
+            font-size: 1.1em;
         }
 
         .card-body {
-            padding: 20px;
+            padding: 15px;
             display: flex;
             justify-content: center;
-            flex-wrap: wrap;
-            gap: 15px;
+            flex-wrap: wrap; /* Agar kotak turun ke bawah kalau layar sempit */
+            gap: 10px;
         }
 
-        /* Kotak Informasi Utama */
         .info-item {
             background: #f9f9f9;
             padding: 15px;
             border-radius: 15px;
             border: 1px solid #ddd;
-            min-width: 220px;
-            min-height: 110px;
+            min-width: 250px; /* Ukuran pas buat HP */
+            min-height: 100px;
             flex: 1;
             display: flex;
             flex-direction: column;
-            justify-content: center; /* Center Vertikal */
-            align-items: center;     /* Center Horizontal */
+            justify-content: center;
+            align-items: center;
             text-align: center;
         }
 
         .info-item.highlight {
             background: #adff2f;
             border: 2px solid #333;
-            min-width: 300px;
+            min-width: 280px;
         }
 
         .label {
             display: block;
-            font-size: 0.75em;
+            font-size: 0.7em;
             font-weight: bold;
             color: #666;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
-        /* Kontainer navigasi (Lalu - Sekarang - Besok) */
         .nav-container {
             display: flex;
             align-items: center;
             justify-content: center;
             width: 100%;
-            gap: 10px;
+            gap: 8px;
         }
 
-        .nav-main {
-            flex: 2;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+        .nav-main { flex: 2; }
+        .value { font-weight: bold; font-size: 1.1em; color: #000; border-bottom: 2px solid #333; }
+        .nav-side { flex: 1; background: rgba(0, 0, 0, 0.05); padding: 5px; border-radius: 8px; border: 1px dashed #999; min-width: 60px; }
+        .side-label { display: block; font-size: 0.55em; color: #777; text-transform: uppercase; }
+        .side-value { font-size: 0.7em; font-weight: bold; color: #444; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-        .value {
-            font-weight: bold;
-            font-size: 1.2em;
-            color: #000;
-            border-bottom: 2px solid #333;
-            padding-bottom: 2px;
-        }
-
-        .nav-side {
-            flex: 1;
-            background: rgba(0, 0, 0, 0.05);
-            padding: 6px;
+        /* --- TABLE RESPONSIVE TRICK --- */
+        .table-container {
+            width: 100%;
+            overflow-x: auto; /* KUNCI: Membuat tabel bisa di-scroll ke samping di HP */
+            -webkit-overflow-scrolling: touch;
             border-radius: 10px;
-            border: 1px dashed #999;
-            min-width: 70px;
-        }
-
-        .side-label {
-            display: block;
-            font-size: 0.6em;
-            color: #777;
-            text-transform: uppercase;
-        }
-
-        .side-value {
-            font-size: 0.75em;
-            font-weight: bold;
-            color: #444;
-            display: block;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        /* --- TABLE STYLES --- */
-        h2 {
-            text-align: center;
-            text-decoration: underline;
-            font-size: 20px;
-            margin-top: 30px;
+            border: 1px solid black;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
             background-color: white;
-            table-layout: fixed;
-            margin-top: 10px;
+            min-width: 800px; /* Memaksa tabel tetap lebar agar tidak penyok */
         }
 
-        th, td {
-            border: 1px solid black;
-            text-align: center;
-            padding: 8px;
-            font-size: 12px;
-        }
-
+        th, td { border: 1px solid black; text-align: center; padding: 6px; font-size: 11px; }
         .header-blue { background-color: #99ccff; font-weight: bold; }
         .bg-green-bright { background-color: #adff2f; font-weight: bold; }
         .highlight-yellow { background-color: #ffff00; font-weight: bold; }
 
+        h2 { text-align: center; font-size: 18px; margin-top: 20px; }
+
         .footer-green {
             background-color: #92d050;
-            text-align: left;
-            padding: 15px;
+            padding: 10px;
             border: 1px solid black;
             border-top: none;
-            font-size: 13px;
+            font-size: 11px;
         }
 
-        @media (max-width: 768px) {
-            .info-item { min-width: 100%; }
-            th, td { font-size: 10px; padding: 4px; }
+        /* Responsive Mobile */
+        @media (max-width: 600px) {
+            .info-item { min-width: 100%; } /* Kotak jadi berjejer vertikal di HP */
+            .card-body { padding: 10px; }
         }
     </style>
 </head>
@@ -171,262 +129,102 @@
             
             <div class="info-item">
                 <span class="label">WAKTU</span>
-                <span id="live-clock" class="value" style="font-size: 1.6em; border: none;">00:00:00</span>
+                <span id="live-clock" class="value" style="font-size: 1.5em; border: none;">00:00:00</span>
             </div>
 
             <div class="info-item">
                 <span class="label">HARI</span>
                 <div class="nav-container">
-                    <div class="nav-side">
-                        <span class="side-label">Kemarin</span>
-                        <span id="prev-day" class="side-value">-</span>
-                    </div>
-                    <div class="nav-main">
-                        <span id="live-day" class="value">-</span>
-                    </div>
-                    <div class="nav-side">
-                        <span class="side-label">Besok</span>
-                        <span id="next-day" class="side-value">-</span>
-                    </div>
+                    <div class="nav-side"><span class="side-label">Lalu</span><span id="prev-day" class="side-value">-</span></div>
+                    <div class="nav-main"><span id="live-day" class="value">-</span></div>
+                    <div class="nav-side"><span class="side-label">Besok</span><span id="next-day" class="side-value">-</span></div>
                 </div>
             </div>
 
             <div class="info-item highlight">
                 <span class="label">MATA PELAJARAN</span>
                 <div class="nav-container">
-                    <div class="nav-side">
-                        <span class="side-label">Sebelum</span>
-                        <span id="prev-lesson" class="side-value">-</span>
-                    </div>
-                    <div class="nav-main">
-                        <span id="live-lesson" class="value">Mengecek...</span>
-                    </div>
-                    <div class="nav-side">
-                        <span class="side-label">Selanjutnya</span>
-                        <span id="next-lesson" class="side-value">-</span>
-                    </div>
+                    <div class="nav-side"><span class="side-label">Sebelum</span><span id="prev-lesson" class="side-value">-</span></div>
+                    <div class="nav-main"><span id="live-lesson" class="value">Mengecek...</span></div>
+                    <div class="nav-side"><span class="side-label">Sesudah</span><span id="next-lesson" class="side-value">-</span></div>
                 </div>
             </div>
 
         </div>
     </div>
 
-    <h2>Jadwal Sekolah SMA Negeri 1 Lasem Kelas XI-M 5</h2>
+    <h2>Jadwal Sekolah XI-M 5</h2>
 
-    <table>
-        <thead>
-            <tr class="header-blue">
-                <th style="width: 14%;">WAKTU</th>
-                <th style="width: 11%;">SENIN</th>
-                <th style="width: 14%;">WAKTU</th>
-                <th style="width: 9%;">SELASA</th>
-                <th style="width: 9%;">RABU</th>
-                <th style="width: 9%;">KAMIS</th>
-                <th style="width: 14%;">WAKTU</th>
-                <th style="width: 20%;">JUM'AT</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td class="bg-green-bright">07.00 - 07.50</td>
-                <td>Upacara</td>
-                <td class="bg-green-bright">07.00 - 07.45</td>
-                <td>Bahasa Inggris</td>
-                <td>Matematika</td>
-                <td>Ekonomi</td>
-                <td class="bg-green-bright">07.00 - 07.45</td>
-                <td>Biology</td>
-            </tr>
-            <tr>
-                <td class="bg-green-bright">07.50 - 08.30</td>
-                <td>Bhs. Inggris TL</td>
-                <td class="bg-green-bright">07.45 - 08.30</td>
-                <td>Biology</td>
-                <td>Matematika</td>
-                <td>Ekonomi</td>
-                <td class="bg-green-bright">07.45 - 08.30</td>
-                <td>Biology</td>
-            </tr>
-            <tr>
-                <td class="bg-green-bright">08.30 - 09.10</td>
-                <td>Bhs. Inggris TL</td>
-                <td class="bg-green-bright">08.30 - 09.15</td>
-                <td>Biology</td>
-                <td>Seni Budaya</td>
-                <td>Ekonomi</td>
-                <td class="bg-green-bright">08.30 - 09.15</td>
-                <td>Bhs. Jawa</td>
-            </tr>
-            <tr>
-                <td class="bg-green-bright">09.10 - 09.50</td>
-                <td>PPKn</td>
-                <td class="bg-green-bright">09.15 - 10.00</td>
-                <td>Biology</td>
-                <td>Seni Budaya</td>
-                <td>Olahraga</td>
-                <td class="highlight-yellow">09.15 - 09.30</td>
-                <td class="highlight-yellow">Istirahat</td>
-            </tr>
-            <tr>
-                <td class="highlight-yellow">09.50 - 10.05</td>
-                <td class="highlight-yellow">Istirahat</td>
-                <td class="highlight-yellow">10.00 - 10.15</td>
-                <td class="highlight-yellow" colspan="3">Istirahat</td>
-                <td class="bg-green-bright">09.30 - 10.15</td>
-                <td>Bhs. Jawa</td>
-            </tr>
-            <tr>
-                <td class="bg-green-bright">10.05 - 10.45</td>
-                <td>PPKn</td>
-                <td class="bg-green-bright">10.15 - 11.00</td>
-                <td>Informatika</td>
-                <td>Informatika</td>
-                <td>Olahraga</td>
-                <td class="bg-green-bright">10.15 - 11.00</td>
-                <td>Agama</td>
-            </tr>
-            <tr>
-                <td class="bg-green-bright">10.45 - 11.25</td>
-                <td>Matematika</td>
-                <td class="bg-green-bright">11.00 - 11.45</td>
-                <td>Informatika</td>
-                <td>Informatika</td>
-                <td>Olahraga</td>
-                <td class="highlight-yellow">11.00 - 12.30</td>
-                <td class="highlight-yellow">Istirahat & MBG</td>
-            </tr>
-            <tr>
-                <td class="highlight-yellow">11.25 - 12.10</td>
-                <td class="highlight-yellow">MBG</td>
-                <td class="highlight-yellow">11.45 - 12.50</td>
-                <td class="highlight-yellow" colspan="3">Istirahat & MBG</td>
-                <td class="bg-green-bright">12.30 - 13.15</td>
-                <td>Bhs. Indonesia</td>
-            </tr>
-            <tr>
-                <td class="bg-green-bright">12.10 - 12.50</td>
-                <td>Matematika</td>
-                <td class="bg-green-bright">12.50 - 13.30</td>
-                <td>Ekonomi</td>
-                <td>BK</td>
-                <td>Agama</td>
-                <td class="bg-green-bright">13.15 - 14.00</td>
-                <td>Bhs. Indonesia</td>
-            </tr>
-            <tr>
-                <td class="bg-green-bright">12.50 - 13.30</td>
-                <td>Bhs. Indonesia</td>
-                <td class="bg-green-bright">13.30 - 14.10</td>
-                <td>Ekonomi</td>
-                <td>Bhs. Inggris TL</td>
-                <td>Agama</td>
-                <td colspan="2"></td>
-            </tr>
-            <tr>
-                <td class="highlight-yellow">13.30 - 13.45</td>
-                <td class="highlight-yellow">Istirahat</td>
-                <td class="bg-green-bright">14.10 - 14.50</td>
-                <td>PKWU</td>
-                <td>Bhs. Inggris TL</td>
-                <td>Sejarah</td>
-                <td colspan="2"></td>
-            </tr>
-            <tr>
-                <td class="bg-green-bright">13.45 - 14.20</td>
-                <td>Bhs. Indonesia</td>
-                <td class="bg-green-bright">14.50 - 15.30</td>
-                <td>PKWU</td>
-                <td>Bhs. Inggris TL</td>
-                <td>Sejarah</td>
-                <td colspan="2"></td>
-            </tr>
-            <tr>
-                <td class="bg-green-bright">14.20 - 14.55</td>
-                <td>Bhs. Inggris</td>
-                <td colspan="6" rowspan="2"></td>
-            </tr>
-            <tr>
-                <td class="bg-green-bright">14.55 - 15.30</td>
-                <td>Bhs. Inggris</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr class="header-blue">
+                    <th>WAKTU (SEN)</th><th>SENIN</th><th>WAKTU (SLS-KM)</th><th>SELASA</th><th>RABU</th><th>KAMIS</th><th>WAKTU (JUM)</th><th>JUM'AT</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td class="bg-green-bright">07.00-07.50</td><td>Upacara</td><td class="bg-green-bright">07.00-07.45</td><td>Bhs. Inggris</td><td>Matematika</td><td>Ekonomi</td><td class="bg-green-bright">07.00-07.45</td><td>Biology</td></tr>
+                <tr><td class="bg-green-bright">07.50-08.30</td><td>B. Ing TL</td><td class="bg-green-bright">07.45-08.30</td><td>Biology</td><td>Matematika</td><td>Ekonomi</td><td class="bg-green-bright">07.45-08.30</td><td>Biology</td></tr>
+                <tr><td class="bg-green-bright">08.30-09.10</td><td>B. Ing TL</td><td class="bg-green-bright">08.30-09.15</td><td>Biology</td><td>Seni Budaya</td><td>Ekonomi</td><td class="bg-green-bright">08.30-09.15</td><td>B. Jawa</td></tr>
+                <tr><td class="bg-green-bright">09.10-09.50</td><td>PPKn</td><td class="bg-green-bright">09.15-10.00</td><td>Biology</td><td>Seni Budaya</td><td>Olahraga</td><td class="highlight-yellow">09.15-09.30</td><td class="highlight-yellow">Istirahat</td></tr>
+                <tr><td class="highlight-yellow">09.50-10.05</td><td class="highlight-yellow">Istirahat</td><td class="highlight-yellow">10.00-10.15</td><td class="highlight-yellow" colspan="3">Istirahat</td><td class="bg-green-bright">09.30-10.15</td><td>B. Jawa</td></tr>
+                <tr><td class="bg-green-bright">10.05-10.45</td><td>PPKn</td><td class="bg-green-bright">10.15-11.00</td><td>Informatika</td><td>Informatika</td><td>Olahraga</td><td class="bg-green-bright">10.15-11.00</td><td>Agama</td></tr>
+                <tr><td class="bg-green-bright">10.45-11.25</td><td>Matematika</td><td class="bg-green-bright">11.00-11.45</td><td>Informatika</td><td>Informatika</td><td>Olahraga</td><td class="highlight-yellow">11.00-12.30</td><td class="highlight-yellow">Istirahat & MBG</td></tr>
+                <tr><td class="highlight-yellow">11.25-12.10</td><td class="highlight-yellow">MBG</td><td class="highlight-yellow">11.45-12.50</td><td class="highlight-yellow" colspan="3">Istirahat & MBG</td><td class="bg-green-bright">12.30-13.15</td><td>B. Indo</td></tr>
+                <tr><td class="bg-green-bright">12.10-12.50</td><td>Matematika</td><td class="bg-green-bright">12.50-13.30</td><td>Ekonomi</td><td>BK</td><td>Agama</td><td class="bg-green-bright">13.15-14.00</td><td>B. Indo</td></tr>
+                <tr><td class="bg-green-bright">12.50-13.30</td><td>B. Indo</td><td class="bg-green-bright">13.30-14.10</td><td>Ekonomi</td><td>B. Ing TL</td><td>Agama</td><td colspan="2"></td></tr>
+                <tr><td class="highlight-yellow">13.30-13.45</td><td class="highlight-yellow">Istirahat</td><td class="bg-green-bright">14.10-14.50</td><td>PKWU</td><td>B. Ing TL</td><td>Sejarah</td><td colspan="2"></td></tr>
+                <tr><td class="bg-green-bright">13.45-14.20</td><td>B. Indo</td><td class="bg-green-bright">14.50-15.30</td><td>PKWU</td><td>B. Ing TL</td><td>Sejarah</td><td colspan="2"></td></tr>
+            </tbody>
+        </table>
+    </div>
 
     <div class="footer-green">
-        <strong>Catatan:</strong><br>
-        Upacara dilaksanakan bergantian dengan Kegiatan Pembinaan Karakter, Literasi, dan Kebersihan Lingkungan Sekolah
+        <strong>Catatan:</strong> Upacara bergantian dengan Literasi/Kebersihan.
     </div>
 
     <script>
         const jadwalData = {
-            1: { // Senin
-                times: ["07:00-07:50", "07:50-08:30", "08:30-09:10", "09:10-09:50", "09:50-10:05", "10:05-10:45", "10:45-11:25", "11:25-12:10", "12:10-12:50", "12:50-13:30", "13:30-13:45", "13:45-14:20", "14:20-14:55", "14:55-15:30"],
-                mapel: ["Upacara", "Bhs. Inggris TL", "Bhs. Inggris TL", "PPKn", "Istirahat", "PPKn", "Matematika", "MBG", "Matematika", "Bhs. Indonesia", "Istirahat", "Bhs. Indonesia", "Bhs. Inggris", "Bhs. Inggris"]
-            },
-            2: { // Selasa
-                times: ["07:00-07:45", "07:45-08:30", "08:30-09:15", "09:15-10:00", "10:00-10:15", "10:15-11:00", "11:00-11:45", "11:45-12:50", "12:50-13:30", "13:30-14:10", "14:10-14:50", "14:50-15:30"],
-                mapel: ["Bhs. Inggris", "Biology", "Biology", "Biology", "Istirahat", "Informatika", "Informatika", "Istirahat & MBG", "Ekonomi", "Ekonomi", "PKWU", "PKWU"]
-            },
-            3: { // Rabu (disamakan dengan Selasa)
-                times: ["07:00-07:45", "07:45-08:30", "08:30-09:15", "09:15-10:00", "10:00-10:15", "10:15-11:00", "11:00-11:45", "11:45-12:50", "12:50-13:30", "13:30-14:10", "14:10-14:50", "14:50-15:30"],
-                mapel: ["Matematika", "Matematika", "Seni Budaya", "Seni Budaya", "Istirahat", "Informatika", "Informatika", "Istirahat & MBG", "BK", "Bhs. Inggris TL", "Bhs. Inggris TL", "Bhs. Inggris TL"]
-            },
-            4: { // Kamis
-                times: ["07:00-07:45", "07:45-08:30", "08:30-09:15", "09:15-10:00", "10:00-10:15", "10:15-11:00", "11:00-11:45", "11:45-12:50", "12:50-13:30", "13:30-14:10", "14:10-14:50", "14:50-15:30"],
-                mapel: ["Ekonomi", "Ekonomi", "Ekonomi", "Olahraga", "Istirahat", "Olahraga", "Olahraga", "Istirahat & MBG", "Agama", "Agama", "Sejarah", "Sejarah"]
-            },
-            5: { // Jumat
-                times: ["07:00-07:45", "07:45-08:30", "08:30-09:15", "09:15-09:30", "09:30-10:15", "10:15-11:00", "11:00-12:30", "12:30-13:15", "13:15-14:00"],
-                mapel: ["Biology", "Biology", "Bhs. Jawa", "Istirahat", "Bhs. Jawa", "Agama", "Istirahat & MBG", "Bhs. Indonesia", "Bhs. Indonesia"]
-            }
+            1: { times: ["07:00-07:50", "07:50-08:30", "08:30-09:10", "09:10-09:50", "09:50-10:05", "10:05-10:45", "10:45-11:25", "11:25-12:10", "12:10-12:50", "12:50-13:30", "13:30-13:45", "13:45-14:20", "14:20-14:55", "14:55-15:30"], mapel: ["Upacara", "B. Inggris TL", "B. Inggris TL", "PPKn", "Istirahat", "PPKn", "Matematika", "MBG", "Matematika", "B. Indonesia", "Istirahat", "B. Indonesia", "B. Inggris", "B. Inggris"] },
+            2: { times: ["07:00-07:45", "07:45-08:30", "08:30-09:15", "09:15-10:00", "10:00-10:15", "10:15-11:00", "11:00-11:45", "11:45-12:50", "12:50-13:30", "13:30-14:10", "14:10-14:50", "14:50-15:30"], mapel: ["B. Inggris", "Biology", "Biology", "Biology", "Istirahat", "Informatika", "Informatika", "Istirahat & MBG", "Ekonomi", "Ekonomi", "PKWU", "PKWU"] },
+            3: { times: ["07:00-07:45", "07:45-08:30", "08:30-09:15", "09:15-10:00", "10:00-10:15", "10:15-11:00", "11:00-11:45", "11:45-12:50", "12:50-13:30", "13:30-14:10", "14:10-14:50", "14:50-15:30"], mapel: ["Matematika", "Matematika", "Seni Budaya", "Seni Budaya", "Istirahat", "Informatika", "Informatika", "Istirahat & MBG", "BK", "B. Inggris TL", "B. Inggris TL", "B. Inggris TL"] },
+            4: { times: ["07:00-07:45", "07:45-08:30", "08:30-09:15", "09:15-10:00", "10:00-10:15", "10:15-11:00", "11:00-11:45", "11:45-12:50", "12:50-13:30", "13:30-14:10", "14:10-14:50", "14:50-15:30"], mapel: ["Ekonomi", "Ekonomi", "Ekonomi", "Olahraga", "Istirahat", "Olahraga", "Olahraga", "Istirahat & MBG", "Agama", "Agama", "Sejarah", "Sejarah"] },
+            5: { times: ["07:00-07:45", "07:45-08:30", "08:30-09:15", "09:15-09:30", "09:30-10:15", "10:15-11:00", "11:00-12:30", "12:30-13:15", "13:15-14:00"], mapel: ["Biology", "Biology", "B. Jawa", "Istirahat", "B. Jawa", "Agama", "Istirahat & MBG", "B. Indonesia", "B. Indonesia"] }
         };
 
         function updateRealtime() {
             const now = new Date();
-            const day = now.getDay(); 
-            const timeStr = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
+            const day = now.getDay();
+            const h = now.getHours().toString().padStart(2, '0');
+            const m = now.getMinutes().toString().padStart(2, '0');
+            const timeStr = h + ":" + m;
             
-            // --- UPDATE HARI ---
             const namaHari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
             document.getElementById('live-clock').innerText = now.toLocaleTimeString('id-ID');
             document.getElementById('live-day').innerText = namaHari[day];
             document.getElementById('prev-day').innerText = namaHari[(day + 6) % 7];
             document.getElementById('next-day').innerText = namaHari[(day + 1) % 7];
 
-            // --- UPDATE MAPEL ---
-            let skrg = "Selesai / Sekolah Libur";
-            let seb = "-";
-            let ses = "-";
-
+            let skrg = "Selesai/Libur", seb = "-", ses = "-";
             if (day >= 1 && day <= 5) {
                 const data = jadwalData[day];
-                let foundIndex = -1;
+                let idx = -1;
                 for (let i = 0; i < data.times.length; i++) {
-                    const [start, end] = data.times[i].split('-');
-                    if (timeStr >= start.trim() && timeStr < end.trim()) {
-                        foundIndex = i;
-                        break;
-                    }
+                    const [s, e] = data.times[i].split('-');
+                    if (timeStr >= s.trim() && timeStr < e.trim()) { idx = i; break; }
                 }
-
-                if (foundIndex !== -1) {
-                    skrg = data.mapel[foundIndex];
-                    seb = (foundIndex > 0) ? data.mapel[foundIndex - 1] : "Awal KBM";
-                    ses = (foundIndex < data.mapel.length - 1) ? data.mapel[foundIndex + 1] : "Pulang";
-                } else {
-                    // Cek jika sebelum sekolah mulai
-                    if (timeStr < data.times[0].split('-')[0]) {
-                        skrg = "Belum Mulai";
-                        ses = data.mapel[0];
-                    }
+                if (idx !== -1) {
+                    skrg = data.mapel[idx];
+                    seb = (idx > 0) ? data.mapel[idx - 1] : "Awal KBM";
+                    ses = (idx < data.mapel.length - 1) ? data.mapel[idx + 1] : "Pulang";
+                } else if (timeStr < data.times[0].split('-')[0]) {
+                    skrg = "Belum Mulai"; ses = data.mapel[0];
                 }
             }
-
             document.getElementById('live-lesson').innerText = skrg;
             document.getElementById('prev-lesson').innerText = seb;
             document.getElementById('next-lesson').innerText = ses;
         }
-
         setInterval(updateRealtime, 1000);
         updateRealtime();
     </script>
