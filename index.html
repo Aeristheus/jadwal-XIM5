@@ -5,17 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jadwal KBM SMA Negeri 1 Lasem</title>
     <style>
+
+        .task-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-left: 8px solid #ff4757;
+            border-radius: 10px;
+            background: #f9f9f9;
+            text-align: left;
+        }
+        .task-info b { display: block; color: #b33939; font-size: 1.1em; }
+        .task-info span { font-size: 0.9em; color: #333; }
+        .task-deadline { text-align: right; font-size: 0.8em; font-weight: bold; color: #555; min-width: 100px; }
+        
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 20px;
-            background-color: #f4f4f4;
+            /* --- PERUBAHAN WARNA BACKGROUND UTAMA --- */
+            background-color: #001a63; /* Biru Gelap (Navy) */
             color: #333;
         }
 
         /* --- REALTIME CARD STYLES --- */
         .realtime-card {
-            background: white;
-            border: 3px solid #333;
+            background: rgb(37, 96, 224);
+            border: 3px solid #000000;
             border-radius: 20px;
             margin-bottom: 20px;
             overflow: hidden;
@@ -23,7 +40,7 @@
         }
 
         .card-header {
-            background: #333;
+            background: #063984;
             color: white;
             padding: 12px;
             text-align: center;
@@ -43,7 +60,7 @@
             background: #f9f9f9;
             padding: 15px;
             border-radius: 15px;
-            border: 1px solid #ddd;
+            border: 2px solid #000000;
             min-width: 220px;
             min-height: 110px;
             flex: 1;
@@ -56,7 +73,7 @@
 
         .info-item.highlight {
             background: #adff2f;
-            border: 2px solid #333;
+            border: 2px solid #000000;
             min-width: 300px;
         }
 
@@ -141,19 +158,21 @@
 
         /* --- TABLE STYLES --- */
         h2 {
-            text-align: center;
-            text-decoration: underline;
-            font-size: 20px;
-            margin-top: 30px;
-        }
+    text-align: center;
+    text-decoration: underline;
+    font-size: 22px;
+    margin-top: 30px;
+    color: #ffffff; /* Warna teks putih agar kontras */
+}
 
         table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: white;
-            table-layout: fixed;
-            margin-top: 10px;
-        }
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff; /* Tetap Putih */
+    table-layout: fixed;
+    margin-top: 10px;
+    color: #000; /* Teks tabel hitam */
+}
 
         th, td {
             border: 1px solid black;
@@ -166,14 +185,14 @@
         .bg-green-bright { background-color: #adff2f; font-weight: bold; }
         .highlight-yellow { background-color: #ffff00; font-weight: bold; }
 
-        .footer-green {
-            background-color: #92d050;
-            text-align: left;
-            padding: 15px;
-            border: 1px solid black;
-            border-top: none;
-            font-size: 13px;
-        }
+       .footer-green {
+    background-color: #92d050;
+    text-align: left;
+    padding: 15px;
+    border: 1px solid #000;
+    font-size: 13px;
+    color: #000;
+}
 
         @media (max-width: 768px) {
             .card-body { flex-wrap: wrap; }
@@ -231,8 +250,14 @@
             </div>
 
         </div>
-    </div>
 
+    </div>
+    <div class="realtime-card" style="background: #ff4757; margin-top: -10px;">
+        <div class="card-header" style="background: #b33939;">DAFTAR TUGAS AKTIF</div>
+        <div id="task-container" class="card-body" style="flex-direction: column; gap: 10px; max-height: 300px; overflow-y: auto; background: #fff; margin: 15px; border-radius: 15px; border: 2px solid #000;">
+            <p style="text-align:center; color:#666;">Memuat data tugas...</p>
+        </div>
+    </div>
     <h2>Jadwal Sekolah SMA Negeri 1 Lasem Kelas XI-M 5</h2>
 
     <table>
@@ -396,54 +421,58 @@
         };
 
         function updateRealtime() {
-    const now = new Date();
-    const day = now.getDay(); 
-    const hour = now.getHours();
-    const min = now.getMinutes();
-    const timeStr = hour.toString().padStart(2, '0') + ":" + min.toString().padStart(2, '0');
-    const dateStr = now.toISOString().split('T')[0];
+        const now = new Date();
+        const day = now.getDay(); 
+        const hour = now.getHours();
+        const min = now.getMinutes();
+        const timeStr = hour.toString().padStart(2, '0') + ":" + min.toString().padStart(2, '0');
+        const dateStr = now.toISOString().split('T')[0];
 
-    // --- 1. UPDATE TANGGAL & JAM ---
-    const bulanIndo = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-    document.getElementById('live-clock').innerText = now.toLocaleTimeString('id-ID');
-    document.getElementById('live-date').innerText = `${now.getDate()} ${bulanIndo[now.getMonth()]} ${now.getFullYear()}`;
+        // --- 1. UPDATE TANGGAL & JAM ---
+        const bulanIndo = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+        document.getElementById('live-clock').innerText = now.toLocaleTimeString('id-ID');
+        document.getElementById('live-date').innerText = `${now.getDate()} ${bulanIndo[now.getMonth()]} ${now.getFullYear()}`;
 
-    // --- 2. LOGIKA BACKGROUND HARI ---
-    const boxHari = document.getElementById('box-hari');
-    boxHari.classList.remove('bg-putih', 'bg-sabtu-minggu', 'bg-tanggal-merah');
-    if (hariLibur.includes(dateStr)) boxHari.classList.add('bg-tanggal-merah');
-    else if (day === 0 || day === 6) boxHari.classList.add('bg-sabtu-minggu');
-    else boxHari.classList.add('bg-putih');
+        // --- 2. LOGIKA BACKGROUND HARI ---
+        const boxHari = document.getElementById('box-hari');
+        boxHari.classList.remove('bg-putih', 'bg-sabtu-minggu', 'bg-tanggal-merah');
+        if (hariLibur.includes(dateStr)) boxHari.classList.add('bg-tanggal-merah');
+        else if (day === 0 || day === 6) boxHari.classList.add('bg-sabtu-minggu');
+        else boxHari.classList.add('bg-putih');
 
-    // --- 3. UPDATE TEXT HARI ---
-    const namaHari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
-    document.getElementById('live-day').innerText = namaHari[day];
-    document.getElementById('prev-day').innerText = namaHari[(day + 6) % 7];
-    document.getElementById('next-day').innerText = namaHari[(day + 1) % 7];
+        // --- 3. UPDATE TEXT HARI ---
+        const namaHari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+        document.getElementById('live-day').innerText = namaHari[day];
+        document.getElementById('prev-day').innerText = namaHari[(day + 6) % 7];
+        document.getElementById('next-day').innerText = namaHari[(day + 1) % 7];
 
-    // --- 4. LOGIKA MATA PELAJARAN ---
-    let skrg = "Sekolah Libur", seb = "-", ses = "-";
-    const totalMenit = (hour * 60) + min;
-    const batasSelesai = (15 * 60) + 30; // 15:30
-    const batasMulai = (6 * 60);        // 06:00
+        // --- 4. LOGIKA MATA PELAJARAN ---
+        let skrg = "Sekolah Libur", seb = "-", ses = "-";
+        const totalMenit = (hour * 60) + min;
+        const batasSelesai = (15 * 60) + 30; // 15:30
+        const batasMulai = (6 * 60);        // 06:00
 
-    // Cek jika hari ini adalah hari sekolah (Senin-Jumat)
-    if (day >= 1 && day <= 5 && !hariLibur.includes(dateStr)) {
+        if (day >= 1 && day <= 5 && !hariLibur.includes(dateStr)) {
         const data = jadwalData[day];
         const lastIndex = data.mapel.length - 1;
 
-        // A. JIKA WAKTU BEBAS (Sore/Malam/Dini Hari)
+        // A. JIKA WAKTU BEBAS (15:30 - 05:59)
         if (totalMenit >= batasSelesai || totalMenit < batasMulai) {
             skrg = "Waktu Bebas";
-            seb = data.mapel[lastIndex]; // Ambil Mapel Terakhir hari ini
-            ses = "-"; // Sesuai request: "-" sampai jam 05.59
+            seb = data.mapel[lastIndex]; // Ambil mapel terakhir hari itu
+            ses = "-"; // Sesuai permintaan
         } 
-        // B. JIKA DALAM JAM KBM (06:00 - 15:29)
+        // B. JIKA JAM KBM (06:00 - 15:29)
         else {
             let foundIndex = -1;
             for (let i = 0; i < data.times.length; i++) {
                 const [start, end] = data.times[i].split('-');
-                if (timeStr >= start.trim() && timeStr < end.trim()) {
+                // Normalisasi format jam (titik ke titik)
+                const s = start.trim().replace(':', '.');
+                const e = end.trim().replace(':', '.');
+                const nowVal = timeStr.replace(':', '.');
+
+                if (nowVal >= s && nowVal < e) {
                     foundIndex = i;
                     break;
                 }
@@ -452,22 +481,57 @@
             if (foundIndex !== -1) {
                 skrg = data.mapel[foundIndex];
                 seb = (foundIndex > 0) ? data.mapel[foundIndex - 1] : "Persiapan";
-                ses = (foundIndex < lastIndex) ? data.mapel[foundIndex + 1] : "Pulang";
-            } else if (timeStr < data.times[0].split('-')[0]) {
+                ses = (foundIndex < lastIndex) ? data.mapel[foundIndex + 1] : "Selesai";
+            } else if (totalMenit < (7 * 60)) { // Jika sudah jam 6 tapi belum jam 7
                 skrg = "Persiapan KBM";
-                ses = data.mapel[0]; // Menampilkan mapel pertama hari ini jika sudah jam 06:00 tapi belum masuk jam pelajaran
                 seb = "-";
+                ses = data.mapel[0];
             } else {
                 skrg = "Waktu Bebas";
                 seb = data.mapel[lastIndex];
                 ses = "-";
             }
         }
-    } else {
-        // Logika jika Sabtu/Minggu/Libur Nasional
-        skrg = "Sekolah Libur";
-        seb = "-";
-        ses = "-";
+        //fungsi tugas//
+        async function fetchTasks() {
+        const url = "https://script.google.com/macros/s/AKfycbyJ1MtmeIbofL9-0vzxtQOA7HweiHZJwbGGLuI-WjOa5w6NVN4uupSCrQyThTFTUmiK/exec"; 
+        try {
+            const response = await fetch(url);
+            const tasks = await response.json();
+            const container = document.getElementById('task-container');
+
+            // Filter tugas yang statusnya Aktif
+            const activeTasks = tasks.filter(t => t.status && (t.status.toLowerCase() === "active" || t.status.toLowerCase() === "aktif"));
+
+            if (activeTasks.length === 0) {
+                container.innerHTML = "<p style='text-align:center; padding:10px; color:#555;'>✅ Semua tugas sudah aman!</p>";
+                return;
+            }
+
+            container.innerHTML = ""; 
+            activeTasks.forEach(item => {
+                let tglTampil = "Tanpa Deadline";
+                if (item.deadline) {
+                    let dateObj = new Date(item.deadline);
+                    tglTampil = dateObj.toLocaleDateString('id-ID', { weekday:'short', day:'numeric', month:'short' });
+                }
+
+                container.insertAdjacentHTML('beforeend', `
+                    <div class="task-item">
+                        <div class="task-info">
+                            <b>${item.mapel}</b>
+                            <span>${item.tugas}</span>
+                        </div>
+                        <div class="task-deadline">⏰ Deadline:<br>${tglTampil}</div>
+                    </div>`);
+            });
+        } catch (error) {
+            document.getElementById('task-container').innerHTML = "<p style='text-align:center; color:red; padding:10px;'>⚠️ Gagal memuat data tugas.</p>";
+        }
+    }
+
+    // Panggil fungsi fetch sekali saat loading
+    fetchTasks();
     }
 
     document.getElementById('live-lesson').innerText = skrg;
